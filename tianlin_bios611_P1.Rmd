@@ -67,3 +67,44 @@ I used `Scatterplot` here tended to show the value like a map considering that t
 
 As a next step, first, it would be interesting to add some other functions or adjustments to make the figure more visible like adding some skech lines of thoes potential circular, use different color scales, or define the area more specifically and discover the pattern in each of them maybe. Then, instead of only look at the comparision between western and eastern, I could also detailly inspect one area like find out is there a very compatible and accurate pattern of this area.
 
+### Figure 3: mtcars dataset
+#### Cars distribution by gears and cylinders (Stacked bar)
+
+```{r mtcars}
+# data preparation: matrix to tibble
+mtc <- as.tibble(mtcars)
+
+# Plot: Stacked bar figure of the number of each gear type and how they are further divided out by cyl.
+
+mtc %>%
+  ggplot(aes(gear)) +
+  geom_bar(aes(cyl))
+```
+
+### Figure 4: iris dataset
+#### The relation between `Sepal.Length` and `Sepal.Width` in different `Species`
+
+```{r iris-1}
+iris %>%
+  ggplot(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+    geom_point() + 
+    geom_smooth(se = FALSE) +
+    facet_wrap(~Species) +
+    theme_minimal()
+```
+
+This figure was derived from the “iris” data set in R, which gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. Here I want to see the The relation between `Sepal.Length` and `Sepal.Width` in different `Species`. 
+
+From the figure, `setosa` seems has a more linearable trend while the other two make me think that there is no certain relationship between length and width. 
+
+So, in the next step, I'll try to find out is other attributes like `Petal.Length` and `Petal.Width` have more significant relationship . Besides, if I don't use `facet_wrap()` as follows:
+
+```{r iris-2}
+iris %>%
+  ggplot(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+    geom_point() + 
+    geom_smooth(se = FALSE)
+```
+
+
+Seems like the distribution of three species have boundaries. So, I think using the for attributes as conditions may successfully predict the species of a new iris.
