@@ -10,11 +10,37 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(reshape2)
 data(volcano)
+data(ChickWeight)
 ```
 
 ## Project1
 
-### Volcano dataset
+### Figure 1: Volcano dataset 
+
+#### How average weights of chicks vary by diet plan and growth time.
+
+```{r ChickWeight}
+# data preparation: to tibble
+cw <- as.tibble(ChickWeight)
+
+# boxplot: x = time, y = weight
+cw %>%
+  group_by(Time, Diet) %>%
+  summarise(weight = mean(weight, na.rm = TRUE)) %>%
+  ggplot(aes(x = factor(Time), y = Diet, fill = weight)) +
+    geom_tile() +
+    labs(x = "Growth Time of Chick", y = "Experimental Diet", fill = "Average Weight")
+```
+
+This figure was derived from the “ChickWeight” data set in R, which is the record from an experiment on the effect of diet on early growth of chicks. The body weights of the chicks were measured at birth and every second day thereafter until day 20. There were four groups on chicks on different protein diets. The `average` weights of chicks is 121.8. however, it is the mean of all weights regardless which chick and the growth tome period. So, to use the `mean` in a more accurate way, I must need to group it by `Time` and maybe `Chick`.
+
+From the figure, we can see that the rank from high to low about the effect of diet on early growth of chicks are `Diet3` > `Diet4` > `Diet2` > `Diet1`.
+
+As a next step, it will be interesting to observe the effect of each diet in several certain time period like `0 - 6`, `8 - 10` etc. By find the best diet plan of each period, I may get a best diet plan which is a combination of these 4 diets. For example, in the first 6 days, using diet 1 and then using diet 3.
+
+
+### Figure 2: Volcano dataset
+#### The pattern of topographic value of volcano
 
 ```{r volcano}
 # data preparation: matrix to tibble
@@ -41,13 +67,3 @@ I used `Scatterplot` here tended to show the value like a map considering that t
 
 As a next step, first, it would be interesting to add some other functions or adjustments to make the figure more visible like adding some skech lines of thoes potential circular, use different color scales, or define the area more specifically and discover the pattern in each of them maybe. Then, instead of only look at the comparision between western and eastern, I could also detailly inspect one area like find out is there a very compatible and accurate pattern of this area.
 
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
