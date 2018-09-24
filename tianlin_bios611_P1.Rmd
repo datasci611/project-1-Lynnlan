@@ -1,0 +1,53 @@
+---
+title: "tianlin_bios611_P1"
+author: "Tianlin"
+date: "9/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(reshape2)
+data(volcano)
+```
+
+## Project1
+
+### Volcano dataset
+
+```{r volcano}
+# data preparation: matrix to tibble
+vcn <- volcano
+colnames(vcn) <- 1:61
+rownames(vcn) <- 1:87
+vcn <- melt(vcn)
+names(vcn) <- c("East to West","South to North","Topographic Value")
+vcn <- as.tibble(vcn)
+
+# plot
+vcn %>% 
+  ggplot(mapping = aes(x = `East to West`, y = `South to North`, color = `Topographic Value`)) +
+    geom_point(show.legend = TRUE)
+```
+
+This figure was derived from the “volcano” data set in R, which is digitized from a topographic map by Ross Ihaka. It is a `matrix` of the "Topographic Information on Auckland's Maunga Whau Volcano" with rows corresponding to grid lines running east to west and columns to grid lines running south to north. The `average` topographic value of the whole area is 130.2 and the most frequently appeared value is "96" with 159 times.
+
+I used `Scatterplot` here tended to show the value like a map considering that the columns and rows in this dataset represent `East to West` and `South to North`. The pattern of the distribution of topographic values are pretty obvious to some extent: 
+
+1. Eastern area has higer values than western area.
+
+2. Seems like there are some circular lines that can be used to show the specific pattern in Eastern area. Etc.
+
+As a next step, first, it would be interesting to add some other functions or adjustments to make the figure more visible like adding some skech lines of thoes potential circular, use different color scales, or define the area more specifically and discover the pattern in each of them maybe. Then, instead of only look at the comparision between western and eastern, I could also detailly inspect one area like find out is there a very compatible and accurate pattern of this area.
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
