@@ -11,11 +11,13 @@ library(tidyverse)
 library(reshape2)
 data(volcano)
 data(ChickWeight)
+data(mtcars)
+data(iris)
 ```
 
 ## Project1
 
-### Figure 1: Volcano dataset 
+### Figure 1: ChickWeight dataset 
 
 #### How average weights of chicks vary by diet plan and growth time.
 
@@ -68,21 +70,32 @@ I used `Scatterplot` here tended to show the value like a map considering that t
 As a next step, first, it would be interesting to add some other functions or adjustments to make the figure more visible like adding some skech lines of thoes potential circular, use different color scales, or define the area more specifically and discover the pattern in each of them maybe. Then, instead of only look at the comparision between western and eastern, I could also detailly inspect one area like find out is there a very compatible and accurate pattern of this area.
 
 ### Figure 3: mtcars dataset
-#### Cars distribution by gears and cylinders (Stacked bar)
+#### Cars' mpg distribution by cyl and the transmission type.
 
 ```{r mtcars}
-# data preparation: matrix to tibble
+# data preparation: mtcars to tibble
 mtc <- as.tibble(mtcars)
 
-# Plot: Stacked bar figure of the number of each gear type and how they are further divided out by cyl.
-
+# Plot: 
 mtc %>%
-  ggplot(aes(gear)) +
-  geom_bar(aes(cyl))
+ggplot(aes(factor(cyl), y = mpg, color = factor(am))) +
+  geom_boxplot()
 ```
 
+This figure was derived from the “mtcars” data set in R, which was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+I think for most people who want to buy a car, the `mpg: Miles/(US) gallon` is always a selection factor, and based on my own experience, I think the `cyl: Number of cylinders` alwyas affect the mpg. So, here, I plot the mpg distribution by cyl and the transmission type (Transmission: 0 = automatic, 1 = manual).
+
+We could find that:
+
+1.  mpg is negatively related to the number of cyl.
+
+2.  manually driven cars have higher mpg.
+
+In the next step, I may filter out all the data of all the automatic transmission cars to analyze in detail.
+
 ### Figure 4: iris dataset
-#### The relation between `Sepal.Length` and `Sepal.Width` in different `Species`
+#### The relation between `Sepal.Length` and `Sepal.Width` in different `Species` & Possible prediction
 
 ```{r iris-1}
 iris %>%
